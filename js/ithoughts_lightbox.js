@@ -18,7 +18,7 @@
 <div id="ithoughts_lightbox-header">\
 <button id="ithoughts_lightbox-header-close">&times;</button>\
 <h2></h2>\
-</div>\
+</div>\ 
 <div id="ithoughts_lightbox-subContainer">\
 <button class="ithoughts_lightbox-left">&lt;</button>\
 <div id="ithoughts_lightbox-container">\
