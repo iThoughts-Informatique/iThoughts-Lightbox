@@ -8,6 +8,12 @@ class ithoughts_lightbox_Admin extends ithoughts_lightbox_interface{
 		add_action( "admin_menu",	array(&$this, "menuPages"));
 
 		add_action( 'admin_enqueue_scripts',					array(&$this,	'enqueue_scripts_and_styles')		);
+
+		add_filter( 'mce_buttons',								array(&$this, "ithoughts_tt_gl_tinymce_register_buttons") );
+
+		add_filter( "mce_external_plugins",						array(&$this, "ithoughts_tt_gl_tinymce_add_buttons") );
+
+		add_filter( 'mce_external_languages',					array(&$this, 'tinymce_add_translations') );
 	}
 	public function ajaxHooks(){
 		add_action( 'wp_ajax_ithoughts_lightbox_update_options',	array(&$this, 'update_options') );
@@ -23,10 +29,29 @@ class ithoughts_lightbox_Admin extends ithoughts_lightbox_interface{
 			parent::$base_url . '/js/simple-ajax-form.js',
 			array('jquery-form')
 		);
+		
+		wp_register_style(
+			'ithoughts_lightbox-admin',
+			parent::$base_url . '/css/ithoughts_lightbox-admin.css'
+		);
 	}
-	public function enqueue_scripts_and_styles(){
+	public function ithoughts_tt_gl_tinymce_register_buttons( $buttons ) {
+		array_push( $buttons, 'lightbox');
+		return $buttons;
+	}
+	public function ithoughts_tt_gl_tinymce_add_buttons( $plugin_array ) {
+		$plugin_array['ithoughts_lightbox_tinymce'] = parent::$base_url . '/js/ithoughts_lightbox-tinymce.js';
+		return $plugin_array;
+	}
+	public function tinymce_add_translations($locales){
+		$locales ['ithoughts_lightbox_tinymce'] = self::$base . '/../lang/ithoughts_lightbox_tinymce_lang.php';
+		return $locales;
+	}
+	public function enqueue_scripts_and_styles($hook){
 		wp_enqueue_script( 'simple-ajax' );
+		wp_enqueue_style('ithoughts_lightbox-admin');
 	}
+
 	public function options(){
 		$ajax         = admin_url( 'admin-ajax.php' );
 		$options      = parent::$options;
@@ -34,6 +59,15 @@ class ithoughts_lightbox_Admin extends ithoughts_lightbox_interface{
 		/* Add required scripts for WordPress Spoilers (AKA PostBox) */
 		wp_enqueue_script('postbox');
 		wp_enqueue_script('post');
+
+
+		$themedropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'theme', array(
+			'selected' => $options["theme"],
+			'options'  => array(
+				'cinema'	=> __('Cinema',	'ithoughts_lightbox'), 
+				'halo'		=> __('Halo',	'ithoughts_lightbox'), 
+			),
+		));
 ?>
 <div class="wrap">
 	<div id="ithoughts-lightbox-options" class="meta-box meta-box-50 metabox-holder">
@@ -70,11 +104,18 @@ class ithoughts_lightbox_Admin extends ithoughts_lightbox_interface{
 											</tr>
 											<tr>
 												<th>
+													<label for="zoom"><?php _e('Enable zoom if possible', 'ithoughts_lightbox'); ?>:</label>
+												</th>
+												<td>
+													<input autocomplete="off" type="checkbox" name="zoom" id="zoom" value="enabled" <?php echo ($options["zoom"] ? " checked" : ""); ?>/>
+												</td>
+											</tr>
+											<tr>
+												<th>
 													<label for="theme"><?php _e('Theme', 'ithoughts_lightbox'); ?>:</label>
 												</th>
 												<td>
-													<select name="theme" id="theme">
-													</select>
+													<?php echo $themedropdown; ?>
 												</td>
 											</tr>
 										</tbody>
@@ -100,8 +141,9 @@ class ithoughts_lightbox_Admin extends ithoughts_lightbox_interface{
 		$lightbox_options = parent::$options;
 
 		$postValues = $_POST;
-		$postValues['autolightbox']  = ithoughts_tt_gl_toggleable_to_bool($postValues, 'autolightbox',  "enabled");
-		$postValues['loopbox']  = ithoughts_tt_gl_toggleable_to_bool($postValues, 'loopbox',  "enabled");
+		$postValues['autolightbox']	= ithoughts_tt_gl_toggleable_to_bool($postValues,	'autolightbox',	"enabled");
+		$postValues['loopbox']		= ithoughts_tt_gl_toggleable_to_bool($postValues,	'loopbox',		"enabled");
+		$postValues['zoom']			= ithoughts_tt_gl_toggleable_to_bool($postValues,	'zoom',			"enabled");
 
 		$lightbox_options = array_merge($lightbox_options, $postValues);
 		$defaults = parent::getPluginOptions(true);

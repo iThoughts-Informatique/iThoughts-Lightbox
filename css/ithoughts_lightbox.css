@@ -8,21 +8,34 @@
 	position: fixed;
 	left: 0;
 	top: 0;
-	z-index: 99999;
+	z-index: 9999999;
 }
-#ithoughts_lightbox-lightboxContainer.cinema{
+#ithoughts_lightbox-lightboxContainer.cinema,
+#ithoughts_lightbox-lightboxContainer.cinema #ithoughts_lightbox-loader,
+#ithoughts_lightbox-lightboxContainer.cinema #ithoughts_lightbox-header,
+#ithoughts_lightbox-lightboxContainer.cinema .ithoughts_lightbox-caption{
 	color: #fff;
 	background-color: rgba(0,0,0,0.9);
 }
 #ithoughts_lightbox-lightboxContainer.cinema button{
 	color: #fff;
 }
-#ithoughts_lightbox-lightboxContainer.halo{
+#ithoughts_lightbox-lightboxContainer.halo,
+#ithoughts_lightbox-lightboxContainer.halo #ithoughts_lightbox-loader,
+#ithoughts_lightbox-lightboxContainer.halo #ithoughts_lightbox-header,
+#ithoughts_lightbox-lightboxContainer.halo .ithoughts_lightbox-caption{
+	color: #000;
 	background-color: rgba(255,255,255,0.9);
 }
 #ithoughts_lightbox-lightboxContainer.halo button{
 	color: #000;
 }
+
+
+
+
+
+
 #ithoughts_lightbox-lightboxSubContainer{
 	width: 100%;
 	height: 100%;
@@ -34,12 +47,12 @@
 
 
 #ithoughts_lightbox-header{
-	background-color: rgba(0,0,0,0.9);
 	width: 100%;
 	flex: 0 0 25px;
 	font-size: 15px;
 	padding: 5px;
 	transition: 0.5s all;
+    position: relative;
 }
 #ithoughts_lightbox-header:hover:not(.closing),#ithoughts_lightbox-header.pseudo-hover:not(.closing){
 	flex-basis: 50px;
@@ -56,6 +69,8 @@
 	font-size: inherit;
 	border-radius: 5px;
 	transition: height 0.5s,width 0.5s,border-radius 0.5s,border 0.5s;
+    position: relative;
+    z-index: 1;
 }
 #ithoughts_lightbox-header:hover:not(.closing) #ithoughts_lightbox-header-close,#ithoughts_lightbox-header.pseudo-hover:not(.closing) #ithoughts_lightbox-header-close{
 	height: 50px;
@@ -66,6 +81,17 @@
 #ithoughts_lightbox-header-close:hover{
 	border-color: inherit;
 }
+#ithoughts_lightbox-header h2 {
+    position: absolute;
+    top: 50%;
+    transform: translate(-0%,-50%);
+    padding: 0 50px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 1em;
+    overflow: hidden;
+	text-align: center;
+}
 #ithoughts_lightbox-subContainer{
 	flex: 1 0 0;
 	position: relative;
@@ -75,10 +101,13 @@
 	background: transparent;
 	border: none;
     font-size: 80px;
-    z-index: 1;
+    z-index: 2;
 	position: absolute;
 	top:0;
 	height: 100%;
+}
+#ithoughts_lightbox-lightboxSubContainer{
+	
 }
 #ithoughts_lightbox-subContainer > button.ithoughts_lightbox-right{
 	right: 0;
@@ -103,4 +132,27 @@
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%,-50%);
+}
+#ithoughts_lightbox-captionContainer{
+    height: 25%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+	z-index: 1;
+}
+#ithoughts_lightbox-captionContainer .ithoughts_lightbox-caption{
+    opacity: 1;
+    position: absolute;
+	padding: 5px 55px;
+    width: 100%;
+    box-sizing: border-box;
+	bottom: 0;
+	border-top: 1px solid currentColor;
+	transform: translate(0, 100%);
+	transition: 0.5s all;
+	text-align: justify;
+}
+#ithoughts_lightbox-captionContainer:hover .ithoughts_lightbox-caption{
+	transform: translate(0, 0);
+	transition: 0.5s all;
 }

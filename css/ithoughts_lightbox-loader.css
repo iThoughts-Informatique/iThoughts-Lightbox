@@ -1,0 +1,109 @@
+#ithoughts_lightbox-loader {
+    position: absolute;
+    color: #FFFFFF;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    padding: 0;
+    margin: 0;
+    z-index: 400;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+#ithoughts_lightbox-loader[data-loader-status=shown] {
+    transition: 0.2s opacity;
+    opacity: 1;
+}
+
+#ithoughts_lightbox-loader[data-loader-status=hidden] {
+    transition: 0.2s opacity;
+    opacity: 0;
+}
+
+#ithoughts_lightbox-loader div.centerer {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 100%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: -50%;
+    top: -50%;
+}
+
+#ithoughts_lightbox-loader div.loader {
+    content: '';
+    position: absolute;
+    top: 9%;
+    bottom: 9%;
+    left: 9%;
+    right: 9%;
+    border-radius: 100%;
+    border: 4px solid transparent;
+    border-top-color: currentColor;
+    opacity: 0.4;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+#ithoughts_lightbox-loader div.loader:after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    left: 10%;
+    right: 10%;
+    border-radius: 100%;
+    border: 3px solid transparent;
+    border-top-color: currentColor;
+    opacity: 0.7;
+    -webkit-animation: spin 3s linear infinite;
+    animation: spin 3s linear infinite;
+}
+#ithoughts_lightbox-loader div.loader:before {
+    content: '';
+    position: absolute;
+    top: 26%;
+    bottom: 26%;
+    left: 26%;
+    right: 26%;
+    border-radius: 100%;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    opacity: 0.4;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+
+
+/*==============Keyframes====================*/
+
+/**/
+@keyframes spin{
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin{
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+/**/
+
+
+
+#img-medium:hover #mainImg{
+	transform: scale(2);
+}

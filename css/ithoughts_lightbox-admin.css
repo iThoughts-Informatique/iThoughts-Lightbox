@@ -1,0 +1,102 @@
+#ithoughts_lightbox-form-container{
+    z-index: 150000;
+    position: absolute;
+}
+#ithoughts_lightbox-form .mce-reset {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    justify-content: center;
+    align-items: stretch;
+}
+#ithoughts_lightbox-form * {
+    box-sizing: border-box;
+}
+#ithoughts_lightbox-form .thumb-image{
+	flex: 0 0 auto;
+	height: auto;
+	max-width: 100px;
+	max-height: 100px;
+	position: relative;
+	margin: 10px;
+}
+#ithoughts_lightbox-form .thumb-image:before{
+    z-index: 10;
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+    text-align: center;
+    border-radius: 100%;
+    top: 0;
+    left: 0;
+	position: absolute;
+	transform: translate(-50%,-50%);
+}
+#ithoughts_lightbox-form .thumb-image.lightbox-true img{
+    box-shadow: #00a0d2 0px 0px 5px 5px;
+	transition: 0.25s box-shadow;
+}
+#ithoughts_lightbox-form .thumb-image.lightbox-true:before{
+    content: "\2713";
+	background: #00a0d2;
+    box-shadow: #00a0d2 0px 0px 5px 5px;
+	transition: 0.25s all;
+}
+#ithoughts_lightbox-form .thumb-image.lightbox-false img{
+    box-shadow: #D26900 0px 0px 5px 5px;
+	transition: 0.25s box-shadow;
+}
+#ithoughts_lightbox-form .thumb-image.lightbox-false:before{
+	content: "\2717";
+	background: #D26900;
+    box-shadow: #D26900 0px 0px 5px 5px;
+	transition: 0.25s all;
+}
+#ithoughts_lightbox-form .thumb-image.lightbox-default img{
+    box-shadow: #DFDFDF 0px 0px 5px 5px;
+	transition: 0.25s box-shadow;
+}
+#ithoughts_lightbox-form .thumb-image.lightbox-default:before{
+	content: "";
+	background: transparent;
+    box-shadow: transparent 0px 0px 5px 5px;
+	transition: 0.25s all;
+}
+#ithoughts_lightbox-form .thumb-image img{
+	max-height: 100%;
+	max-width: 100%;
+	height: auto;
+	width: auto;
+}
+
+#ithoughts_lightbox-form .mce-reset{
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    justify-content: center;
+    align-items: stretch;
+}
+#ithoughts_lightbox-form .mce-reset > *{
+    flex: 0 0 auto;
+}
+#ithoughts_lightbox-form .mce-reset > .mce-window-body{
+    flex: 1 1 auto;
+	max-height: 100%;
+    overflow-y: auto;
+}
+#ithoughts_lightbox-form .mce-foot{
+}
+#ithoughts_lightbox-form .mce-foot .mce-container-body{
+    text-align: right;
+    padding: 10px;
+}
+#ithoughts_lightbox-form b{
+    font-weight: 600;
+}
+#ithoughts_lightbox-form form{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: stretch;
+}
