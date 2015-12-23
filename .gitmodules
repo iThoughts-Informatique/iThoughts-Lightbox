@@ -1,0 +1,3 @@
+[submodule "submodules/ImageZoom"]
+	path = submodules/ImageZoom
+	url = git@github.com:Nihilivin/ImageZoom.git

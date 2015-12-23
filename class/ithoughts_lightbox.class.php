@@ -88,7 +88,7 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 	public function register_scripts_and_styles(){
 		wp_register_script(
 			'image_zoom',
-			parent::$base_url . '/submodules/ImageZoom/zoom.js'
+			parent::$base_url . '/submodules/ImageZoom/image_zoom.js'
 		);
 		wp_register_script(
 			'ithoughts_lightbox',
@@ -119,7 +119,7 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 		);
 		wp_register_style(
 			'image_zoom',
-			parent::$base_url . '/submodules/ImageZoom/zoom.css'
+			parent::$base_url . '/submodules/ImageZoom/image_zoom.css'
 		);
 	}
 
