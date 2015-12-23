@@ -134,6 +134,8 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 	public function wp_enqueue_styles(){
 		wp_enqueue_style('ithoughts_lightbox');
 		wp_enqueue_style('ithoughts_lightbox-loader');
+		if(parent::$options["zoom"])
+			wp_enqueue_style('image_zoom');
 	}
 
 	public function filterContent($content){

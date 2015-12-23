@@ -175,6 +175,9 @@ function startLightbox($elem, $){
 						overflowed = true;
 					}
 				}
+					if(overflowed){
+						window.zoomed = ZoomableImage($(this));	
+					}
 			}
 			loader.setAttribute('data-loader-status', "hidden");
 			$(this).stop().animate({opacity:1});
@@ -195,36 +198,37 @@ function startLightbox($elem, $){
 		switch(ithoughts_lightbox.transition){
 			case "fade":{
 				return function(imageIndex){
-					ithoughts_lightbox.startTransition = function(newImg){
-						console.log("Transition", newImg);
+					//ithoughts_lightbox.startTransition = function(newImg){
+					var newImg = $(ithoughts_lightbox.images[imageIndex]);
+					console.log("Transition", newImg);
 
-						// Header
-						$lightboxHeader.find("h2").animate({opacity: 0}, ithoughts_lightbox.duration, function(){
-							$(this).remove();
-						});
-						var title = newImg[0].getAttribute("title")
-						if(typeof title == "undefined" || !title)
-							title = newImg[0].getAttribute("alt");
-						if(typeof title == "undefined" || !title)
-							title = "";
-						$lightboxHeader.prepend($($.parseHTML("<h2 style=\"opacity: 0\">" + title + "</h2>")).animate({opacity: 1}, ithoughts_lightbox.duration));
+					// Header
+					$lightboxHeader.find("h2").animate({opacity: 0}, ithoughts_lightbox.duration, function(){
+						$(this).remove();
+					});
+					var title = newImg[0].getAttribute("title")
+					if(typeof title == "undefined" || !title)
+						title = newImg[0].getAttribute("alt");
+					if(typeof title == "undefined" || !title)
+						title = "";
+					$lightboxHeader.prepend($($.parseHTML("<h2 style=\"opacity: 0\">" + title + "</h2>")).animate({opacity: 1}, ithoughts_lightbox.duration));
 
-						//Caption (if any)
-						var caption = findClosestCaption($(ithoughts_lightbox.images[imageIndex]));
-						$lightbox.find("#ithoughts_lightbox-captionContainer").find(".ithoughts_lightbox-caption").animate({opacity: 0}, ithoughts_lightbox.duration, function(){
-							$(this).remove();
-						});
-						if(caption){
-							$lightbox.find("#ithoughts_lightbox-captionContainer").append($($.parseHTML("<p class=\"ithoughts_lightbox-caption\" style=\"opacity: 0\">" + caption + "</p>")).animate({opacity: 1}, ithoughts_lightbox.duration));
+					//Caption (if any)
+					var caption = findClosestCaption($(ithoughts_lightbox.images[imageIndex]));
+					$lightbox.find("#ithoughts_lightbox-captionContainer").find(".ithoughts_lightbox-caption").animate({opacity: 0}, ithoughts_lightbox.duration, function(){
+						$(this).remove();
+					});
+					if(caption){
+						$lightbox.find("#ithoughts_lightbox-captionContainer").append($($.parseHTML("<p class=\"ithoughts_lightbox-caption\" style=\"opacity: 0\">" + caption + "</p>")).animate({opacity: 1}, ithoughts_lightbox.duration));
 
-						}
-
-						// Image
-						$container.children().not(newImg).animate({opacity: 0}, ithoughts_lightbox.duration, function(){
-							$(this).remove();
-						});
-						newImg.animate({opacity: 1}, ithoughts_lightbox.duration);
 					}
+
+					// Image
+					$container.children().not(newImg).animate({opacity: 0}, ithoughts_lightbox.duration, function(){
+						$(this).remove();
+					});
+					newImg.animate({opacity: 1}, ithoughts_lightbox.duration);
+					//}
 					var copyAttributes = ["alt", "title"];
 					var newElem = loadImage(ithoughts_lightbox.images[imageIndex].getAttribute("data-lightbox-fullwidth"))[0];
 					for(var i = 0; i < copyAttributes.length; i++){
