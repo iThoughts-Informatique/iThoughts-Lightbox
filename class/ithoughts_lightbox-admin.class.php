@@ -107,7 +107,15 @@ class ithoughts_lightbox_Admin extends ithoughts_lightbox_interface{
 													<label for="zoom"><?php _e('Enable zoom if possible', 'ithoughts_lightbox'); ?>:</label>
 												</th>
 												<td>
-													<input autocomplete="off" type="checkbox" name="zoom" id="zoom" value="enabled" <?php echo ($options["zoom"] ? " checked" : ""); ?>/>
+													<input autocomplete="off" type="checkbox" name="zoom" id="zoom" value="enabled" <?php echo ($options["zoom"] ? " checked" : ""); ?> onchange="jQuery('#maxZoomLevel').prop('disabled', !this.checked);"/>
+												</td>
+											</tr>
+											<tr>
+												<th>
+													<label for="maxZoomLevel"><?php _e('Maximum zoom level', 'ithoughts_lightbox'); ?>:</label>
+												</th>
+												<td>
+													<input autocomplete="off" type="number" min="1" name="maxZoomLevel" id="maxZoomLevel" value="<?php echo $options["maxZoomLevel"]; ?>" <?php echo (!$options["zoom"] ? ' disabled="disabled"' : ""); ?>/>
 												</td>
 											</tr>
 											<tr>

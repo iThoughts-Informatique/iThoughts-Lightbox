@@ -30,7 +30,8 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 			'theme'			=> "cinema",
 			'transition'	=> "fade",
 			"duration"		=> 500,
-			"zoom"			=> true
+			"zoom"			=> true,
+			"maxZoomLevel"	=> 2,
 		);
 		parent::$options		= $this->initOptions();
 		parent::$script = false;
@@ -61,7 +62,7 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 		var_dump($content);
 		$attrs["data-caption"] = $attrs["caption"];
 		return $attrs;
-//		return str_replace("<img", "<img data-caption=\"".$attrs["caption"]."\" ", $content);
+		//		return str_replace("<img", "<img data-caption=\"".$attrs["caption"]."\" ", $content);
 		/*$content = preg_replace($regexs["addToExplicit"]["regex"],$regexs["addToExplicit"]["replace"], $content);
 		$content = preg_replace($regexs["addToImplicit"]["regex"],$regexs["addToImplicit"]["replace"], $content);
 		//'<img data-lightbox="true" class="wp-image-'.$id.'" size-thumbnail" src="http://wordpress.loc/wp-content/uploads/2015/10/neural-network-360-cylinder.jpgb508790f-63c7-4098-b5e1-a1328d1ebb40Original-150x150.jpg" alt="neural network 360 cylinder.jpgb508790f-63c7-4098-b5e1-a1328d1ebb40Original" width="150" height="150">
@@ -86,13 +87,20 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 
 	public function register_scripts_and_styles(){
 		wp_register_script(
+			'image_zoom',
+			parent::$base_url . '/submodules/ImageZoom/zoom.js'
+		);
+		wp_register_script(
 			'ithoughts_lightbox',
 			parent::$base_url . '/js/ithoughts_lightbox.js',
-			NULL
+			(parent::$options["zoom"] ? array("image_zoom") : array())
 		);
 
 		$opts = parent::$options;
-		unset($opts["version"],$opts["autolightbox"]);
+		unset(
+			$opts["version"],
+			$opts["autolightbox"]
+		);
 		wp_localize_script(
 			'ithoughts_lightbox',
 			'ithoughts_lightbox',
@@ -109,11 +117,17 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 			'ithoughts_lightbox-loader',
 			parent::$base_url . '/css/ithoughts_lightbox-loader.css'
 		);
+		wp_register_style(
+			'image_zoom',
+			parent::$base_url . '/submodules/ImageZoom/zoom.css'
+		);
 	}
 
 	public function wp_enqueue_scripts(){
 		if( !parent::$script )
 			return;
+		if(parent::$options["zoom"])
+			wp_enqueue_script('ithoughts_zoom');
 		wp_enqueue_script('ithoughts_lightbox');
 	}
 

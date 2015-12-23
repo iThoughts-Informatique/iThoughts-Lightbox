@@ -56,6 +56,7 @@ function startLightbox($elem, $){
 <div id="ithoughts_lightbox-header">\
 <h2>' + title + '</h2>\
 <button id="ithoughts_lightbox-header-close">&times;</button>\
+' + (ithoughts_lightbox.zoom ? '<button id="ithoughts_lightbox-header-zoom"></button>' : '') + '\
 </div>\
 <div id="ithoughts_lightbox-subContainer">\
 <div id="ithoughts_lightbox-captionContainer">\
