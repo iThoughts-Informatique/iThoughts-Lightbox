@@ -29,7 +29,7 @@ class ithoughts_lightbox_Admin extends ithoughts_lightbox_interface{
 			parent::$base_url . '/js/simple-ajax-form.js',
 			array('jquery-form')
 		);
-		
+
 		wp_register_style(
 			'ithoughts_lightbox-admin',
 			parent::$base_url . '/css/ithoughts_lightbox-admin.css'
@@ -64,9 +64,19 @@ class ithoughts_lightbox_Admin extends ithoughts_lightbox_interface{
 		$themedropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'theme', array(
 			'selected' => $options["theme"],
 			'options'  => array(
-				'cinema'	=> __('Cinema',	'ithoughts_lightbox'), 
-				'halo'		=> __('Halo',	'ithoughts_lightbox'), 
-			),
+				'cinema'	=> array(
+					"title"	=> __('Cinema',	'ithoughts_lightbox'),
+					"attrs"	=> array(
+						"title"	=> __('Dark theme with very opaque black background',	'ithoughts_lightbox'),
+					),
+				),
+				'halo'		=>	array(
+					"title"	=> __('Halo',	'ithoughts_lightbox'),
+					"attrs"	=> array(
+						"title"	=> __('Bright theme with very opaque white background',	'ithoughts_lightbox'),
+					),
+				),
+			)
 		));
 ?>
 <div class="wrap">

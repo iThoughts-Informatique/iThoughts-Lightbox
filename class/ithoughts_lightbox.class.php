@@ -101,6 +101,7 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 			$opts["version"],
 			$opts["autolightbox"]
 		);
+		$opts["baseurl"] = parent::$base_url;
 		wp_localize_script(
 			'ithoughts_lightbox',
 			'ithoughts_lightbox',

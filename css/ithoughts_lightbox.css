@@ -46,6 +46,14 @@
 
 
 
+#ithoughts_lightbox-lightboxContainer button{
+	pointer-events: auto;
+	opacity: 1;
+}
+#ithoughts_lightbox-lightboxContainer button.ithoughts-lightbox-hidden{
+	pointer-events: none;
+	opacity: 0;
+}
 #ithoughts_lightbox-header{
 	width: 100%;
 	flex: 0 0 32px;
@@ -53,45 +61,64 @@
 	padding: 5px;
 	transition: 0.5s all;
 	position: relative;
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
-#ithoughts_lightbox-header:hover:not(.closing),#ithoughts_lightbox-header.pseudo-hover:not(.closing){
+#ithoughts_lightbox-header h2{
+	font-size: 23,4375px;
+	transition: 0.5s font-size ease;
+	color: inherit;
+}
+#ithoughts_lightbox-header:hover:not(.closing),
+#ithoughts_lightbox-header.pseudo-hover:not(.closing){
 	flex-basis: 50px;
-	font-size: 30px;
-	padding: 10px;
+	font-size: 23.4375px;
+	padding: 7.8125px;
 	transition: 0.5s all;
 }
-#ithoughts_lightbox-header-close, #ithoughts_lightbox-header-zoom{
-	width: 25px;
-	height: 25px;
-	margin: 0;
-	border: 2px solid transparent;
+#ithoughts_lightbox-header:hover:not(.closing)			h2,
+#ithoughts_lightbox-header.pseudo-hover:not(.closing)	h2{
+	font-size: 30px;
+	transition: 0.5s font-size ease;
+}
+#ithoughts_lightbox-header-close,
+#ithoughts_lightbox-header-zoom{
 	background-color: transparent;
 	font-size: inherit;
-	border-radius: 5px;
-	transition: height 0.5s,width 0.5s,border-radius 0.5s,border 0.5s;
 	position: relative;
 	z-index: 1;
+	display: block;
+	width: 32px;
+	height: 32px;
+	margin: -5px;
+	border-radius: 5px;
+	border: 2px solid transparent;
+	transition: 0.5s height ease,0.5s width ease,0.5s margin ease,0.5s border-radius ease,0.5s border ease,0.5s opacity ease;
 }
-#ithoughts_lightbox-header:hover:not(.closing) #ithoughts_lightbox-header-close,
-#ithoughts_lightbox-header.pseudo-hover:not(.closing) #ithoughts_lightbox-header-close,
-#ithoughts_lightbox-header:hover:not(.closing) #ithoughts_lightbox-header-zoom,
-#ithoughts_lightbox-header.pseudo-hover:not(.closing) #ithoughts_lightbox-header-zoom{
+#ithoughts_lightbox-header:hover:not(.closing)			#ithoughts_lightbox-header-close,
+#ithoughts_lightbox-header.pseudo-hover:not(.closing)	#ithoughts_lightbox-header-close,
+#ithoughts_lightbox-header:hover:not(.closing)			#ithoughts_lightbox-header-zoom,
+#ithoughts_lightbox-header.pseudo-hover:not(.closing)	#ithoughts_lightbox-header-zoom{
 	height: 50px;
 	width: 50px;
-	border-radius: 10px;
-	transition: height 0.5s,width 0.5s,border-radius 0.5s,border 0.5s;
+	margin: -7.8125px;
+	border-radius: 7.8125px;
+	transition: 0.5s height ease,0.5s width ease,0.5s margin ease,0.5s border-radius ease,0.5s border ease,0.5s opacity ease;
 }
-#ithoughts_lightbox-header-close:hover, #ithoughts_lightbox-header-zoom:hover{
+#ithoughts_lightbox-header-close:hover,
+#ithoughts_lightbox-header-zoom:hover{
 	border-color: inherit;
 }
-
-#ithoughts_lightbox-header-zoom{
-	float: right;
-}	
 #ithoughts_lightbox-header-close{
 	float: left;
 }	
+#ithoughts_lightbox-header-zoom{
+	float: right;
+}	
+#ithoughts_lightbox-header-zoom > svg{
+	vertical-align: sub;
+	margin: -3px;
+    fill: currentColor;
+}
 #ithoughts_lightbox-header h2 {
 	position: absolute;
 	top: 50%;
@@ -117,8 +144,8 @@
 	top:0;
 	height: 100%;
 }
-#ithoughts_lightbox-lightboxSubContainer{
-
+#ithoughts_lightbox-subContainer > button{
+	transition: 0.5s opacity;
 }
 #ithoughts_lightbox-subContainer > button.ithoughts_lightbox-right{
 	right: 0;
@@ -140,11 +167,11 @@
 	width: auto;
 	display: block;
 	position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;	
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;	
 }
 #ithoughts_lightbox-captionContainer{
 	height: 25%;
