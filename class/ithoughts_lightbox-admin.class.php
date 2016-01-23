@@ -61,18 +61,18 @@ class ithoughts_lightbox_Admin extends ithoughts_lightbox_interface{
 		wp_enqueue_script('post');
 
 
-		$themedropdown = ithoughts_tt_gl_build_dropdown_multilevel( 'theme', array(
+		$themedropdown = ithoughts_toolbox::generate_input_select( 'theme', array(
 			'selected' => $options["theme"],
 			'options'  => array(
 				'cinema'	=> array(
-					"title"	=> __('Cinema',	'ithoughts_lightbox'),
-					"attrs"	=> array(
+					"text"	=> __('Cinema',	'ithoughts_lightbox'),
+					"attributes"	=> array(
 						"title"	=> __('Dark theme with very opaque black background',	'ithoughts_lightbox'),
 					),
 				),
 				'halo'		=>	array(
-					"title"	=> __('Halo',	'ithoughts_lightbox'),
-					"attrs"	=> array(
+					"text"	=> __('Halo',	'ithoughts_lightbox'),
+					"attributes"	=> array(
 						"title"	=> __('Bright theme with very opaque white background',	'ithoughts_lightbox'),
 					),
 				),
@@ -159,9 +159,9 @@ class ithoughts_lightbox_Admin extends ithoughts_lightbox_interface{
 		$lightbox_options = parent::$options;
 
 		$postValues = $_POST;
-		$postValues['autolightbox']	= ithoughts_tt_gl_toggleable_to_bool($postValues,	'autolightbox',	"enabled");
-		$postValues['loopbox']		= ithoughts_tt_gl_toggleable_to_bool($postValues,	'loopbox',		"enabled");
-		$postValues['zoom']			= ithoughts_tt_gl_toggleable_to_bool($postValues,	'zoom',			"enabled");
+		$postValues['autolightbox']	= ithoughts_toolbox::checkbox_to_bool($postValues,	'autolightbox',	"enabled");
+		$postValues['loopbox']		= ithoughts_toolbox::checkbox_to_bool($postValues,	'loopbox',		"enabled");
+		$postValues['zoom']			= ithoughts_toolbox::checkbox_to_bool($postValues,	'zoom',			"enabled");
 
 		$lightbox_options = array_merge($lightbox_options, $postValues);
 		$defaults = parent::getPluginOptions(true);

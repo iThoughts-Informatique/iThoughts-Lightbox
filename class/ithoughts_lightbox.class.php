@@ -56,11 +56,11 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 				"regex" => '/(<img(?![^>]*data-lightbox=["\']?(?:true|false)["\']?))([^>]*>)/',
 				"replace" => '$1 data-image-id="'.$id.'" data-lightbox="true" $2'
 			)
-		);*/
+		);/*
 		var_dump($a);
 		var_dump($attrs);
 		var_dump($content);
-		$attrs["data-caption"] = $attrs["caption"];
+		$attrs["data-caption"] = $attrs["caption"];*/
 		return $attrs;
 		//		return str_replace("<img", "<img data-caption=\"".$attrs["caption"]."\" ", $content);
 		/*$content = preg_replace($regexs["addToExplicit"]["regex"],$regexs["addToExplicit"]["replace"], $content);
@@ -88,12 +88,15 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 	public function register_scripts_and_styles(){
 		wp_register_script(
 			'image_zoom',
-			parent::$base_url . '/submodules/ImageZoom/image_zoom.js'
+			parent::$base_url . '/submodules/ImageZoom/image_zoom.js',
+			null,
+			'0.1.2'
 		);
 		wp_register_script(
 			'ithoughts_lightbox',
 			parent::$base_url . '/js/ithoughts_lightbox.js',
-			(parent::$options["zoom"] ? array("image_zoom") : array())
+			(parent::$options["zoom"] ? array("image_zoom") : array()),
+			'0.1.2'
 		);
 
 		$opts = parent::$options;
@@ -127,8 +130,6 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 	public function wp_enqueue_scripts(){
 		if( !parent::$script )
 			return;
-		if(parent::$options["zoom"])
-			wp_enqueue_script('ithoughts_zoom');
 		wp_enqueue_script('ithoughts_lightbox');
 	}
 
@@ -143,10 +144,10 @@ class ithoughts_lightbox extends ithoughts_lightbox_interface{
 		if(!is_single())
 			return $content;
 
-		$count;
-		$content = preg_replace("/(<img)(?!.*data-lightbox=)([^>]*>)/", '$1 data-lightbox="'.(parent::$options["autolightbox"] ? "true" : "false").'"$2', $content, -1, $count);
+		$content = preg_replace("/(<img)(?!.*data-lightbox=)([^>]*>)/", '$1 data-lightbox="'.(parent::$options["autolightbox"] ? "true" : "false").'"$2', $content, -1);
 		$idmatches;
 		preg_match_all("/<img(?=.*data-lightbox=(?:\"true\"|true|'true'))[^>]*class=\"[^\"]*wp-image-(\d+)[^\"]*\"[^>]*>/",$content, $idmatches);
+		$count = count($idmatches[0]);
 		foreach($idmatches[0] as $matchIndex => $matchedString){
 			$attachment = wp_get_attachment_image_src( $idmatches[1][$matchIndex], "ful", false );
 			$content = str_replace($idmatches[0][$matchIndex], preg_replace("/<img(.*)>/", "<img data-lightbox-fullwidth=\"".$attachment[0]."\"$1>", $idmatches[0][$matchIndex]), $content);

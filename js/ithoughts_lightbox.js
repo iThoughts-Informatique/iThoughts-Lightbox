@@ -34,7 +34,19 @@
 		})
 	}
 })(jQuery);
+
 function startLightbox($elem, $){
+	function getPosition(e){
+		console.log(e);
+		var ret;
+		if(e.originalEvent && e.originalEvent.touches && e.originalEvent.touches.length > 0)
+			ret = {x: e.originalEvent.touches[0].clientX, y: e.originalEvent.touches[0].clientY};
+		else if(e.originalEvent && e.originalEvent.changedTouches && e.originalEvent.changedTouches.length > 0)
+			ret = {x: e.originalEvent.changedTouches[0].clientX, y: e.originalEvent.changedTouches[0].clientY};
+		else
+			ret = {x: e.clientX, y: e.clientY};
+		return ret;
+	}
 	ithoughts_lightbox_opened = true;
 	var title = $elem[0].getAttribute("title")
 	if(typeof title == "undefined" || !title)
@@ -63,21 +75,60 @@ function startLightbox($elem, $){
 <div id="ithoughts_lightbox-captionContainer">\
 ' + caption + '\
 </div>\
-<button class="ithoughts_lightbox-left">&lt;</button>\
 <div id="ithoughts_lightbox-container">\
 </div>\
+<div class="ithoughts_lightbox-buttons">\
+<button class="ithoughts_lightbox-left">&lt;</button>\
 <button class="ithoughts_lightbox-right">&gt;</button>\
+</div>\
 </div>\
 <div id="ithoughts_lightbox-loader" data-loader-status="shown">\
 <div class="loader"></div>\
 </div>\
 </div>\
 </div>')).css("opacity",0).animate({opacity: 1}, 500);
+	var swipeFlag = false;
+	$lightbox.bind("touchstart mousedown", function(e){
+		/*alert("Touchstart " + typeof e);
+		alert(convertToText(e));*/
+		swipeFlag = getPosition(e);
+		if(window.chromeAndroid)
+			/*e.preventDefault()*/;
+	})/*.bind("mousemove touchmove", function(e){
+		if(swipeFlag.x == null && swipeFlag.y == null){
+			console.log("Define offsets because of null", e, e.touches);
+		}
+	})*/.bind("touchend mouseup touchleave touchcancel", function(e){
+		console.log(e);
+		if(!swipeFlag)
+			return;
+		var newp = getPosition(e);
+		var d = {x: newp.x - swipeFlag.x, y: newp.y - swipeFlag.y};
+		console.log(JSON.stringify(swipeFlag) + " " + JSON.stringify(d));
+		var angle = Math.atan2(d.y, d.x) * (180 / Math.PI);
+		var absangle = Math.abs(angle);
+		if(absangle > 90)
+			absangle = Math.abs(absangle - 180);
+		var distance = Math.sqrt(Math.pow(d.x,2) + Math.pow(d.y,2));
+		console.log(d, distance, angle, absangle);
+		if(absangle < 20){
+			console.log("Swipe to left/right");
+			if(distance > $(window).height() / 3){
+				rotateIndex((angle > 90 || angle < -90) ? 1 : -1);
+			}
+		} else if(absangle > 70){
+			console.log("Swipe to top/bottom");
+		}
+		swipeFlag = false;
+	}).bind("touchmove", function(e){
+		//e.preventDefault();
+	});
 	$("body").append($lightbox);
 	loader = $lightbox.find("#ithoughts_lightbox-loader")[0];
 	$lightboxSub = $lightbox.find("#ithoughts_lightbox-lightboxSubContainer");
 	$lightboxHeader = $lightbox.find("#ithoughts_lightbox-header")
 	if(window.chrome && /android/i.test(navigator.userAgent)){
+		window.chromeAndroid = true;
 		$(window).resize(function(){
 			$lightboxSub.stop().animate({height: $(window).height()});
 		});
@@ -127,22 +178,24 @@ function startLightbox($elem, $){
 		}
 	}
 	buttons.right.click(function(){
-		var oldIndex = index;
-		var newIndex = rotate(1);
-		if(oldIndex != newIndex)
-			executeRotateToImage(newIndex);
+		console.log("Click on right button");
+		rotateIndex(1);
 	});
 	buttons.left.click(function(){
+		console.log("Click on left button");
+		rotateIndex(-1);
+	});
+	function rotateIndex(direction){
 		var oldIndex = index;
-		var newIndex = rotate(-1);
+		var newIndex = rotate(direction);
 		if(oldIndex != newIndex)
 			executeRotateToImage(newIndex);
-	});
+	}
 	buttons.zoom.click(function(){
 		if($(this).prop("disabled") != "disabled"){
 			if(zoomObj == null){
 				setMode({zoom: true});
-				zoomObj = new ZoomableImage($container.find(".ithoughts_lightbox-img"), {maxZoom: ithoughts_lightbox.maxZoomLevel});
+				zoomObj = new ImageZoom($container.find(".ithoughts_lightbox-img"), {maxZoom: ithoughts_lightbox.maxZoomLevel});
 				$header.bind("mouseover mouseleave", delayRecalcZoom);
 			} else {
 				setMode({zoom: false});
@@ -256,6 +309,7 @@ function startLightbox($elem, $){
 					var newImg = $(ithoughts_lightbox.images[imageIndex]);
 
 					// Header
+
 					$lightboxHeader.find("h2").animate({opacity: 0}, ithoughts_lightbox.duration, function(){
 						$(this).remove();
 					});
@@ -268,13 +322,14 @@ function startLightbox($elem, $){
 
 					//Caption (if any)
 					var caption = findClosestCaption($(ithoughts_lightbox.images[imageIndex]));
-					$lightboxCaptionContainer.find(".ithoughts_lightbox-caption").animate({opacity: 0}, ithoughts_lightbox.duration, function(){
+					$lightboxCaptionContainer.addClass("force-hidden").find(".ithoughts_lightbox-caption").css({opacity: 1}).animate({opacity: 0}, ithoughts_lightbox.duration, function(){
 						$(this).remove();
-					});
-					if(caption){
-						$lightboxCaptionContainer.append($($.parseHTML("<p class=\"ithoughts_lightbox-caption\" style=\"opacity: 0\">" + caption + "</p>")).animate({opacity: 1}, ithoughts_lightbox.duration));
+						$lightboxCaptionContainer.removeClass("force-hidden");
+						if(caption){
+							$lightboxCaptionContainer.append($($.parseHTML("<p class=\"ithoughts_lightbox-caption\""/* style=\"opacity: 0\"*/+">" + caption + "</p>"))/*.animate({opacity: 1}, ithoughts_lightbox.duration)*/);
 
-					}
+						}
+					});
 
 					// Image
 					$container.children().not(newImg).animate({opacity: 0}, ithoughts_lightbox.duration, function(){
