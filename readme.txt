@@ -59,5 +59,8 @@ This section is empty for now.
 = 0.1.2 =
 Improve behavior, especially on responsive
 
+= 0.1.2 =
+Improve behavior, especially on responsive
+
 = 0.1.1 =
 Correct some styles that are modified by themes
